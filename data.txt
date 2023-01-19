@@ -1,0 +1,269 @@
+rule number change that vairiable that we want
+for easy traversal
+//chef and adventure
+int t;
+    cin>>t;
+    while(t--){
+        int n,m,x,y;
+        cin>>n>>m>>x>>y;
+
+        n--;
+        m--;
+        if(n==1 && m==1 || n==0 && m==0){
+            cout<<"1"<<endl;
+            cout<<"Chefirnemo"<<endl;
+        }
+        else if((n>=0 && m>=0) && n%x==0 && m%y==0){
+            cout<<"2"<<endl;
+            cout<<"Chefirnemo"<<endl;
+        }
+        else if(n%x==1 && m%y==1){
+            cout<<"3"<<endl;
+            cout<<"Chefirnemo"<<endl;
+        }
+        else{
+            cout<<"4"<<endl;
+            cout<<"Pofik"<<endl;
+        }
+    }
+//Sum of Distances in Tree
+//chef and semi primes
+#include<bits/stdc++.h>
+using namespace std;
+#define vi    vector<int>
+#define ll    long long
+#define gcd   __gcd
+bool find_prime(int n){
+    if(n==1){
+        return true;
+    }
+    for(int i=2;i<=n/2;i++){
+        if(n%i==0){
+            return false;
+        }
+    }
+    return true;
+}
+bool find_semi_prime(int n){
+    int count=0;
+    for(int i=2;i<=n/2;i++){
+        bool a=find_prime(i);
+        if(a){
+            if(n%i==0){
+                if(find_prime(n/i)){
+                   if(i!=(n/i)){
+                     return true;
+                   }
+                }
+            }
+        }
+    }
+    return false;
+}
+int main(){
+       /*int n;
+       cin>>n;
+       cout<<find_semi_prime(n)<<endl;
+       */
+       int t;
+       cin>>t;
+       while(t--){
+          int n;
+          cin>>n;
+          bool flag=false;
+          for(int i=1;i<=n/2;i++){
+             int a=i;
+             int b=n-i;
+             bool ar=find_semi_prime(a);
+             bool br=find_semi_prime(b);
+             if(ar==true && br==true){
+                cout<<a<<" "<<ar<<"  "<<b<<" "<<br<<endl;
+                flag=true;
+                break;
+             }
+          }
+          if(flag==true){
+            cout<<"yes"<<endl;
+          }
+          else{
+            cout<<"no"<<endl;
+          }
+       }
+       
+       return 0;
+}
+
+//prime factor
+
+int prime_no[N];
+vector<pair<int,int>> adj[N];
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int a,b,k;
+        cin>>a>>b>>k;
+        vector<int>v;// it stores the primes numbers till N
+        for(int i=2;i<=N;i++){
+            if(prime_no[i]){
+                continue;//here if number is not prime then do not go further
+            }
+            prime_no[i]=i;//here the number is prime he will be the factor of itself lik 2 ,3 ,5
+            for(int j=2*i;j<=N;j+=i){
+                prime_no[j]=i;// here it will mark all the composite or non prime numbers
+            }
+        }
+        for(int i=2;i<=N;i++){//this tell the factors of ith numbers
+            int x=i;
+            map<int,int>mp;//defines the frequency of the prime number in ith number
+            while(x!=1){
+                mp[prime_no[x]]++;// 45 (greatest prime is 5) then new x will be 45/5
+           //then 9(greatest prime is 3) then new x is 9/3
+           //the 3(greatest prime is 3) then new x is 3/3
+                x=x/prime_no[x];
+            }
+            for(auto it:mp){
+                adj[i].push_back(it);
+            }
+        }
+    }
+    return 0;
+}
+/*
+    if(idx==n-1){
+        if(max_weights>=weights[idx]){
+            return value[idx];
+        }
+        return 0;
+    }
+    if(dp[idx][max_weights]!=-1){
+        return dp[idx][max_weights];
+    }
+    int not_take=knapsack(value,weights,idx+1,n,max_weights,dp);
+    int take=INT_MIN;
+    if(weights[idx]<=max_weights){
+        take=value[idx]+knapsack(value,weights,idx+1,n,max_weights-weights[idx],dp);
+    }
+    return dp[idx][max_weights]=max(take,not_take);
+    */
+    
+    /*for(int i=0;i<=max_weights;i++){
+        if(i>=weights[n-1]){
+            dp[n-1][i]=value[n-1];
+        }
+    }
+    for(int i=n-2;i>=0;i--){
+       for(int j=0;j<=max_weights;j++){
+            
+            int not_take=dp[i+1][j];
+            int take=INT_MIN;
+            if(weights[i]<=j){
+                take=value[i]+dp[i+1][j-weights[i]];
+            }
+            dp[i][j]=max(take,not_take);
+       }
+    }
+    return dp[0][max_weights];*/
+
+
+
+
+
+
+
+
+
+/*int number_of_subset(vector<int>&v,int idx,int k,int n,vector<vector<int>>&dp){
+    if(k==0){
+        return 1;
+    }  
+    if(idx==n-1){
+        return v[n-1]==k;
+    }
+    
+    if(dp[idx][k]!=-1){
+        return dp[idx][k];
+    }
+    int not_take=number_of_subset(v,idx+1,k,n,dp);
+    int take=0;
+    if(v[idx]<=k){
+        take=number---_of_subset(v,idx+1,k-v[idx],n,dp);
+    }
+    
+    return dp[idx][k]=take+not_take;
+    for(int i=0;i<n;i++){
+        dp[i][0]=1;
+    }
+    dp[n-1][v[n-1]]=1;
+
+    vector<int>pos(k+1),cur(k+1);
+    cur[0]=pos[0]=1;
+    pos[v[n-1]]=1;
+    
+    for(int i=n-2;i>=0;i--){
+        for(int j=1;j<=k;j++){  
+            int not_take=pos[j];
+            int take=0;
+            if(v[i]<=j){
+                take=pos[j-v[i]];
+            }
+            cur[j]=take+not_take;
+        }
+        pos=cur;
+    }
+    return pos[k];
+}*/
+/*static int ans=INT_MAX;
+void find_minimum(vector<int>&arr,int idx,int sum_idx,int n,int sum,int count){
+    
+    if(idx==n){
+        int a=sum_idx;
+        int b=sum-sum_idx;
+        if(abs(a-b)<ans ){
+            cout<<a<<" "<<b<<" "<<abs(a-b)<<endl;
+            ans=abs(a-b);
+        }
+        return;
+    }
+
+    find_minimum(arr,idx+1,sum_idx,n,sum,count);
+    find_minimum(arr,idx+1,sum_idx+arr[idx],n,sum,count+1);
+
+}*/
+
+    //vector<vector<long long>> dp(n,vector<long long>(max_weight+1,0));
+
+
+There are N items, numbered 1,2,…,N. For each i (1≤i≤N), Item i has a weight of w i
+and a value of v i.
+Taro has decided to choose some of the N items and carry them home in a knapsack. The capacity of the knapsack is W, which means that the sum of the weights of items taken must be at most W.
+Find the maximum possible sum of the values of items that Taro takes home.
+
+There are N items, numbered 1,2,…,N. For each i (1≤i≤N), Item i has a weight of w i
+​and a value of v i
+Taro has decided to choose some of the N items and carry them home in a knapsack. The capacity of the knapsack is W, which means that the sum of the weights of items taken must be at most W.
+Find the maximum possible sum of the values of items that Taro takes home.
+#include<bits/stdc++.h>
+using namespace std;
+int rod_cutting(vector<int>&arr,int idx,int n){
+    
+    if(idx==0){
+        return n*arr[0];
+    }
+    int not_take=rod_cutting(arr,idx-1,n);
+    int take=INT_MIN;
+    if(idx+1<=n){
+        take=arr[idx]+rod_cutting(arr,idx,n-idx+1);
+    }
+    return max(take,not_take);
+}
+int main(){
+    int n;
+    cin>>n;
+    vector<int>v(n);
+    for(int i=0;i<n;i++){
+        cin>>v[i];
+    }
+    cout<<rod_cutting(v,n-1,n)<<endl;
+    return 0;
+}
