@@ -1,51 +1,51 @@
 #include<bits/stdc++.h>
 using namespace std;
-/*int solve(vector<int>&v,int n,int k){
-    int sum=0;
-    unordered_map<int,int>mp;
-    mp[0]=1;
-    int i=0;
-    int count=0;
-    while(i<n){
-        sum+=v[i];
-        if(mp.find(sum-k)!=mp.end()){
-           count+=mp[sum-k];
-        }
-        mp[sum]++;
-        i++;
+bool isvalid(string s){
+    if(s[0]=='0'){
+        return false;
     }
-    return count;
-}*/
-int solve(vector<int>&v,int n,int k){
-    int sum=0;
-    unordered_map<int,int>mp;
-    mp[0]=1;
-    int i=0;
-    int count=0;
-    while(i<n){
-        sum+=v[i];
-        int rem=sum%k;
-        if(rem<0){
-            rem+=k;
-        }
-
-        if(mp.find(rem)!=mp.end()){
-           count+=mp[rem];
-        }
-        mp[rem]++;
-        i++;
+    int n=stoi(s);
+    if(n>255){
+        return false;
     }
-    return count;
+    cout<<s<<endl;
+    return true;
+}
+void fun(string s,vector<string> &ans,string work,int idx,int p){
+    if(idx==s.length()){
+        if(p==4){
+            ans.push_back(work.substr(0,work.length()-1));
+        }
+        return;
+    }
+    fun(s,ans,work+s[idx]+'.',idx+1,p+1);
+    if(idx+2<=s.length() && isvalid(s.substr(idx,2))==true){
+        fun(s,ans,work+s.substr(idx,2)+'.',idx+2,p+1);
+    }
+    if(idx+3<=s.length() && isvalid(s.substr(idx,3))==true){
+        fun(s,ans,work+s.substr(idx,3)+'.',idx+3,p+1);
+    }
+}
+vector<string> solve(string s){
+   vector<string>ans;
+   if(s.length()>12){
+     return ans;
+   }
+   for(auto it:s){
+    if(it>='0' && it<='9'){
+        continue;
+    }
+     return ans;
+   }
+   fun(s,ans,"",0,0);
+   return ans;
 }
 int main(){
-    int n;
-    cin>>n;
-    vector<int>v(n);
-    for(int i=0;i<n;i++){
-        cin>>v[i];
+    string s;
+    cin>>s;
+    vector<string>ans=solve(s);
+    for(auto it:ans){
+        cout<<it<<" "<<endl;
     }
-    int k;
-    cin>>k;
-    cout<<solve(v,n,k)<<endl;
     return 0;
 }
