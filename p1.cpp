@@ -8,8 +8,10 @@ void solve(string s){
    for(auto it:s){
       mp[it]++;
    }
+   
 
-  
+  //he i am just checking man
+
 }
 int main(){
    return 0;
